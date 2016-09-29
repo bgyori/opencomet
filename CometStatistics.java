@@ -1,3 +1,31 @@
+/**
+* CometStatistics.java
+* Created in 2012 by Benjamin Gyori
+* National University of Singapore
+* e-mail: ben.gyori@gmail.com
+*
+* When you use this plugin for your work, please cite
+* Gyori BM, Venkatachalam G, et al. OpenComet: An automated tool for
+* comet assay image analysis
+*
+* CometAnalyzer.java is the main internal class for comet analysis.
+* cometAnalyzerRun takes an image as input. It analyzes the image
+* and extracts comets. The comet head and tail are segmented and
+* measurements are calculated. The resulting Comet objects are returned.
+*
+* This plugin is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License version 3
+* as published by the Free Software Foundation.
+*
+* This work is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this plugin; if not, write to the Free Software
+* Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*/
 import ij.IJ;
 import ij.ImagePlus;
 

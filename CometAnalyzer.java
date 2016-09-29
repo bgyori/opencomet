@@ -2,7 +2,7 @@
 * CometAnalyzer.java
 * Created in 2012 by Benjamin Gyori
 * National University of Singapore
-* e-mail: bgyori@nus.edu.sg
+* e-mail: ben.gyori@gmail.com
 *
 * When you use this plugin for your work, please cite
 * Gyori BM, Venkatachalam G, et al. OpenComet: An automated tool for

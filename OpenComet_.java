@@ -2,7 +2,7 @@
 * OpenComet_.java
 * Created in 2012 by Benjamin Gyori
 * National University of Singapore
-* e-mail: bgyori@nus.edu.sg
+* e-mail: ben.gyori@gmail.com
 *
 * OpenComet_.java is the outside wrapper for the OpenComet plug-in.
 * It displays the GUI and manages all input-output functions

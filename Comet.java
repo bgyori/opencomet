@@ -2,7 +2,7 @@
 * Comet.java
 * Created in 2012 by Benjamin Gyori
 * National University of Singapore
-* e-mail: bgyori@nus.edu.sg
+* e-mail: ben.gyori@gmail.com
 *
 * Comet.java defines the Comet class used to represent a
 * comet with its parameters and status flag.
