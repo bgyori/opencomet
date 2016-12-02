@@ -32,6 +32,7 @@ import ij.ImagePlus;
 import ij.gui.*;
 import ij.plugin.filter.*;
 import ij.process.*;
+import ij.measure.Measurements;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -267,7 +268,7 @@ public class CometAnalyzer {
 
             // Head properties
             ip_gs2.setRoi(comet.headRoi);
-            ImageStatistics headStats = ip_gs2.getStatistics();
+            ImageStatistics headStats = ImageStatistics.getStatistics(ip_gs2, ij.measure.Measurements.ALL_STATS, null);
             comet.headArea = headStats.area;
             comet.headIntensity = headStats.mean;
             comet.headLength = headStats.roiWidth;
@@ -368,7 +369,7 @@ public class CometAnalyzer {
         // --- First stage: find brightest part of comet
 
         // Get statistics from the comet
-            IJ.log(cometOptions+"");
+            IJ.log(cometOptions + "");
             if ((cometOptions & HEADFIND_AUTO)!=0 || (cometOptions & HEADFIND_BRIGHTEST)!=0){
                 // Find the threshold at top 5% of histogram intensities
                 int threshbin = getLocalThresh(comet.histogram, 255, 0.95);
@@ -381,55 +382,55 @@ public class CometAnalyzer {
                 // Find borders of the brightest area
                 Rectangle brightestBoundRect = getBinaryBoundRect(ipComet);
 
-                IJ.log(brightestBoundRect+"");
+                IJ.log(brightestBoundRect + "");
                 if((comet.circularity < 0.9) && (brightestBoundRect.width > brightestBoundRect.height*2)){
-                    IJ.log(comet.id+" head is too long invalid");
+                    IJ.log(comet.id + " head is too long invalid");
                     headValid = false;
                     }
                 //else {
 
-                    // Get statistics of the brightest region of comet
-                    ImageStatistics brightestStats = ipComet.getStatistics();
+                // Get statistics of the brightest region of comet
+                ImageStatistics brightestStats = ImageStatistics.getStatistics(ipComet,
+                                                    ij.measure.Measurements.ALL_STATS, null);
 
-                    // Take center of mass of the brightest region
-                    int xc = (int)brightestStats.xCenterOfMass;
-                    IJ.log("Center of mass x: "+xc);
+                // Take center of mass of the brightest region
+                int xc = (int)brightestStats.xCenterOfMass;
+                IJ.log("Center of mass x: " + xc);
 
-                    ip.setRoi(comet.cometRoi);
-                    int headRadius = getHeadHeight(ip, xc)/2;
-                    int headGap = xc - headRadius;
-                    if(headGap > 0){
+                ip.setRoi(comet.cometRoi);
+                int headRadius = getHeadHeight(ip, xc)/2;
+                int headGap = xc - headRadius;
+                if(headGap > 0){
+                    IJ.log(comet.id + " head is at wrong place invalid");
+                    headValid = false;
+                }
+
+                headX = comet.x;
+                headCenterY = getFrontCentroid(ip);
+                headY = (int)(headCenterY - headRadius);
+
+                roiHeadCircle = new OvalRoi(headX, headY, 2*headRadius, 2*headRadius );
+
+                roi1 = new ShapeRoi(comet.cometRoi);
+                roi2 = new ShapeRoi(roiHeadCircle);
+                roiHead = roi2.and(roi1);
+
+                // If the comet is elongated, the head should be close to the left hand side
+
+                /*if(comet.hratio < 0.9){
+                    if((headBoundRect.x - comet.x) > (double)comet.width*0.1){
                         IJ.log(comet.id+" head is at wrong place invalid");
                         headValid = false;
-                    }
-
-                    headX = comet.x;
-                    headCenterY = getFrontCentroid(ip);
-                    headY = (int)(headCenterY - headRadius);
-
-                    roiHeadCircle = new OvalRoi(headX, headY, 2*headRadius, 2*headRadius );
-
-                    roi1 = new ShapeRoi(comet.cometRoi);
-                      roi2 = new ShapeRoi(roiHeadCircle);
-                      roiHead = roi2.and(roi1);
-
-                      // If the comet is elongated, the head should be close to the left hand side
-
-                    /*if(comet.hratio < 0.9){
-                        if((headBoundRect.x - comet.x) > (double)comet.width*0.1){
-                            IJ.log(comet.id+" head is at wrong place invalid");
-                            headValid = false;
-                            }
-                        }*/
+                        }
+                    }*/
 
 
-                      headBoundRect = roiHead.getBounds();
-                    if(headBoundRect.width*headBoundRect.height==0) {
-                          IJ.log(comet.id+" head area zero invalid");
-                          headValid = false;
-                      }
+                  headBoundRect = roiHead.getBounds();
+                if(headBoundRect.width*headBoundRect.height==0) {
+                      IJ.log(comet.id + " head area zero invalid");
+                      headValid = false;
+                  }
                 //}
-
             }
 
         // ----------------------------------------------
@@ -458,7 +459,7 @@ public class CometAnalyzer {
 
     private void setCometParams(Comet comet, ImageProcessor ip){
         ip.setRoi(comet.cometRoi);
-        ImageStatistics stats = ip.getStatistics();
+        ImageStatistics stats = ImageStatistics.getStatistics(ip, ij.measure.Measurements.ALL_STATS, null);
 
         // Position
         comet.x = (int)stats.roiX;
@@ -481,7 +482,7 @@ public class CometAnalyzer {
 
         PolygonRoi roiConvexHull = new PolygonRoi(comet.cometRoi.getConvexHull(),Roi.POLYGON);
         ip.setRoi(roiConvexHull);
-        comet.areaConvexHull = ip.getStatistics().area;
+        comet.areaConvexHull = ImageStatistics.getStatistics(ip, ij.measure.Measurements.AREA, null).area;
         comet.convexity = (comet.area / comet.areaConvexHull);
     }
 
@@ -743,7 +744,7 @@ public class CometAnalyzer {
         Rectangle br = roi.getBounds();
         int maskidx;
 
-        ImageStatistics stats = ip.getStatistics();
+        ImageStatistics stats = ImageStatistics.getStatistics(ip, ij.measure.Measurements.ALL_STATS, null);
         double fullIntensityHalf = (stats.mean * stats.area)/2.0;
         double sumIntensity = 0.0;
         int x;

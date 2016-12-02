@@ -80,7 +80,7 @@ public class OpenComet_ implements PlugIn, MouseListener {
     public OpenComet_(){}
 
     public void run(String arg) {
-        IJ.log("Welcome to OpenComet");
+        IJ.log("Welcome to OpenComet v1.3.1!");
         makeLayout();
         updateOutputButton.setEnabled(false);
         }
