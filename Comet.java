@@ -1,3 +1,5 @@
+import ij.gui.Roi;
+
 /**
 * Comet.java
 * Created in 2012 by Benjamin Gyori
@@ -19,14 +21,12 @@
 * When you use this plugin for your work, please cite
 * Gyori BM, Venkatachalam G, et al. OpenComet: An automated tool for 
 * comet assay image analysis
-
+*
 * You should have received a copy of the GNU General Public License
 * along with this plugin; if not, write to the Free Software
 * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-
-import ij.gui.Roi;
 
 public class Comet {
     public Comet(Roi roi){
@@ -90,15 +90,20 @@ public class Comet {
     public int headRoiCenterY;
 
     public String getMeasurementString(String sep){
-        String flagStr;
-        if(status==VALID)
-            flagStr = "normal";
-        else if (status==OUTLIER)
-            flagStr = "outlier";
-        else if (status==DELETED)
-            flagStr = "deleted";
-        else
-            return "";
+    	String flagStr;
+        switch(status) {
+            case VALID:
+                flagStr = "normal";
+                break;
+            case OUTLIER:
+                flagStr = "outlier";
+                break;
+            case DELETED:
+                flagStr = "deleted";
+                break;
+            default:
+                return "";
+        }
 
         String result = id + sep
                 + flagStr + sep 
