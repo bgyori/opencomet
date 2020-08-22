@@ -52,7 +52,7 @@ public class CometAnalyzer {
         ByteProcessor ip_gs = getGrayscaleCopy(ip_gs_template, ImagePlus.GRAY8);
         ByteProcessor ip_gs2 = getGrayscaleCopy(ip_gs_template, ImagePlus.GRAY8);
         // -----------------------------
-             
+
         ImagePlus img_gs = new ImagePlus("tmpimg", ip_gs);
 
         // ----- Global background correction-----
@@ -105,7 +105,75 @@ public class CometAnalyzer {
             IJ.log("No valid comets found.");
             return null;
         }
-            // --- Area and height statistics
+
+        //---Find more comets-----------------
+        /*for(int t = (int)threshValue;t<255;t+=10){
+            IJ.log("Thresh value:"+(int)threshValue+ " t: "+t);
+
+
+            ImageProcessor ipTmp = getGrayscaleCopy(ip,imgOriginalType);
+            ImagePlus imgTmp = new ImagePlus("imgTmp",ipTmp);
+
+            if((cometOptions & COMETFIND_BGCORRECT)!=0){
+                RankFilters rf = new RankFilters();
+                rf.rank(ipTmp, 10.0, RankFilters.MEDIAN);
+
+                BackgroundSubtracter bSub = new BackgroundSubtracter();
+                double radiusRollingBall = Math.min(ipTmp.getHeight(),ipTmp.getWidth())*0.3;
+                bSub.rollingBallBackground(ipTmp, radiusRollingBall, false,
+                                        false, false, false, true);
+            }
+
+
+            setThreshold(ipTmp,t);
+            ipTmp.invertLut();
+            open_ntimes(ipTmp, 3, 1);
+
+            imgTmp.show();
+
+            int paTmpOpts = ParticleAnalyzer.SHOW_NONE | ParticleAnalyzer.EXCLUDE_EDGE_PARTICLES | ParticleAnalyzer.INCLUDE_HOLES;
+            CometParticleAnalyzer paTmp = new CometParticleAnalyzer(paTmpOpts,0,null,200,Double.POSITIVE_INFINITY,0,1);
+            paTmp.analyze(imgTmp,ipTmp);
+            Roi[] cometRoisTmp = paTmp.getCometRois();
+            IJ.log("Number of ROIs found: "+cometRoisTmp.length);
+
+
+            Vector<Roi> addRois = new Vector<Roi>();
+            Vector<Integer> addRoisIdx = new Vector<Integer>();
+            Vector<Comet> removeComets = new Vector<Comet>();
+            for(int j=0;j<Comets.size();j++){
+                Comet comet = Comets.get(j);
+                if(comet.status==Comet.INVALID){
+                    addRoisIdx.clear();
+                    for(int i=0;i<cometRoisTmp.length;i++){
+                        Rectangle br = cometRoisTmp[i].getBounds();
+                        int xc = br.x + br.width/2;
+                        int yc = br.y + br.height/2;
+                        if(comet.cometRoi.contains(xc,yc)){
+                            addRoisIdx.add(i);
+                        }
+                    }
+                    if(addRoisIdx.size()>=2){
+                        removeComets.add(comet);
+                        for(int k=0;k<addRoisIdx.size();k++){
+                            addRois.add(cometRoisTmp[addRoisIdx.get(k)]);
+                        }
+                    }
+                }
+            }
+            for(int i=0;i<removeComets.size();i++){
+                Comets.remove(removeComets.get(i));
+            }
+            for(int i=0;i<addRois.size();i++){
+                Comet newComet = new Comet(addRois.get(i));
+                setCometParams(newComet,ip_gs2);
+                newComet.status = Comet.VALID;
+                Comets.add(newComet);
+            }
+            setValidity(Comets,ip_gs2);
+        }*/
+        //------------------------------------
+        // --- Area and height statistics
         double meanArea = 0, stdArea = 0;
         double meanHeight = 0, stdHeight = 0;
         for (int i = 0; i < Comets.size(); i++) {
@@ -128,12 +196,20 @@ public class CometAnalyzer {
         stdArea = Math.sqrt(stdArea);
         stdHeight = Math.sqrt(stdHeight);
         // ---------------------------
-       
+
         // Set outlier comets based on statistics
         for (int i = 0; i < Comets.size(); i++) {
             Comet comet = Comets.get(i);
             if (comet.status == Comet.VALID) {
                 IJ.log("Mean height: " + meanHeight + ", std: " + stdHeight + "this height: " + comet.height);
+                /*if(comet.height > meanHeight + 2*stdHeight){
+                    comet.status = Comet.INVALID;
+                    IJ.log(i+" too high invalid");
+                    }
+                if(comet.height < meanHeight - 2*stdHeight){
+                    comet.status = Comet.INVALID;
+                    IJ.log(i+" height too small invalid");
+                    }*/
                 if (Math.abs(comet.area - meanArea) > 2 * stdArea) {
                     if (comet.status == Comet.VALID)
                         comet.status = Comet.OUTLIER;
@@ -252,7 +328,16 @@ public class CometAnalyzer {
         // --- Crop the grayscale comet from the original image
         // Make a grayscale copy of the original image
         ByteProcessor ipComet = (ByteProcessor) ip.duplicate();
-    
+        // TODO: change this
+        // int img_orig_type = 4;
+        // Grayscale
+        /*if(img_orig_type == 0){
+                ipComet = (ByteProcessor)ip.duplicate();
+                }
+            // RGB
+            else if(img_orig_type == 4){
+                ipComet = getCometChannel(ip);
+                }*/
 
         // Set the comet as ROI
         ipComet.setRoi(comet.cometRoi);
@@ -319,11 +404,19 @@ public class CometAnalyzer {
 
             // If the comet is elongated, the head should be close to the left hand side
 
+            /*if(comet.hratio < 0.9){
+                    if((headBoundRect.x - comet.x) > (double)comet.width*0.1){
+                        IJ.log(comet.id+" head is at wrong place invalid");
+                        headValid = false;
+                        }
+                    }*/
+
             headBoundRect = roiHead.getBounds();
             if (headBoundRect.width * headBoundRect.height == 0) {
                 IJ.log(comet.id + " head area zero invalid");
                 headValid = false;
             }
+            // }
         }
 
         // ----------------------------------------------
@@ -487,26 +580,37 @@ public class CometAnalyzer {
         }
     }
 
-    /*
-     * private void drawComet(ImageProcessor ip, Comet comet){ if(comet.status ==
-     * Comet.INVALID){ ip.setColor(cometInvalidColor);
-     * comet.cometRoi.drawPixels(ip); } else if (comet.status == Comet.OUTLIER){ //
-     * Draw comet outline on output image, add label ip.setColor(cometOutlierColor);
-     * ip.setRoi(comet.cometRoi); comet.cometRoi.drawPixels(ip);
-     * ip.setRoi(comet.headRoi); comet.headRoi.drawPixels(ip);
-     * 
-     * TextRoi textRoi = new TextRoi(comet.x+comet.width, comet.y, ""+comet.id, new
-     * Font("Arial", Font.BOLD, 22)); textRoi.drawPixels(ip); } else if(comet.status
-     * ==Comet.VALID){ // Draw comet outline on output image, add label
-     * ip.setColor(cometValidColor); ip.setRoi(comet.cometRoi);
-     * comet.cometRoi.drawPixels(ip); ip.setRoi(comet.headRoi);
-     * comet.headRoi.drawPixels(ip);
-     * 
-     * TextRoi textRoi = new TextRoi(comet.x+comet.width, comet.y, ""+comet.id, new
-     * Font("Arial", Font.BOLD, 22)); textRoi.drawPixels(ip); }
-     * 
-     * }
-     */
+	/*private void drawComet(ImageProcessor ip, Comet comet){
+        if(comet.status == Comet.INVALID){
+            ip.setColor(cometInvalidColor);
+            comet.cometRoi.drawPixels(ip);
+        }
+        else if (comet.status == Comet.OUTLIER){
+            // Draw comet outline on output image, add label
+            ip.setColor(cometOutlierColor);
+            ip.setRoi(comet.cometRoi);
+            comet.cometRoi.drawPixels(ip);
+            ip.setRoi(comet.headRoi);
+            comet.headRoi.drawPixels(ip);
+
+            TextRoi textRoi = new TextRoi(comet.x+comet.width,
+                    comet.y, ""+comet.id, new Font("Arial", Font.BOLD, 22));
+            textRoi.drawPixels(ip);
+        }
+        else if(comet.status ==Comet.VALID){
+            // Draw comet outline on output image, add label
+            ip.setColor(cometValidColor);
+            ip.setRoi(comet.cometRoi);
+            comet.cometRoi.drawPixels(ip);
+            ip.setRoi(comet.headRoi);
+            comet.headRoi.drawPixels(ip);
+
+            TextRoi textRoi = new TextRoi(comet.x+comet.width,
+                    comet.y, ""+comet.id, new Font("Arial", Font.BOLD, 22));
+            textRoi.drawPixels(ip);
+        }
+
+    }*/
 
     private int setValidity(Vector<Comet> Comets, ImageProcessor ip, CometConfiguration cometConfiguration) {
         int validCount = 0;
@@ -574,57 +678,57 @@ public class CometAnalyzer {
     }
 
     // private void yMoments(ImageProcessor ip){
-    // double sumpix = 0.0;
-    // double sumy1 = 0.0;
-    // double sumy2 = 0.0;
-    // double sumy3 = 0.0;
-    // double sumy4 = 0.0;
-    // double xc, yc;
-    // double ymean, yvar;
-    // double yskew, ykurt;
-    // Rectangle roi = ip.getRoi();
-    // byte[] mask = ip.getMaskArray();
-    // Rectangle br = roi.getBounds();
-    // double pix;
-    // int cnt1=0;
+        // double sumpix = 0.0;
+        // double sumy1 = 0.0;
+        // double sumy2 = 0.0;
+        // double sumy3 = 0.0;
+        // double sumy4 = 0.0;
+        // double xc, yc;
+        // double ymean, yvar;
+        // double yskew, ykurt;
+        // Rectangle roi = ip.getRoi();
+        // byte[] mask = ip.getMaskArray();
+        // Rectangle br = roi.getBounds();
+        // double pix;
+        // int cnt1=0;
 
-    // int counter = 0;
-    // for(int y=br.y; y<(br.y+br.height); y++){
-    // for(int x=br.x; x<(br.x+br.width); x++){
-    // if(mask[counter++]!=0){
-    // pix = ip.getPixelValue(x,y);
-    // xc = x+0.5;
-    // yc = y+0.5;
-    // sumpix += pix;
-    // sumy1 += pix*yc;
-    // cnt1++;
-    // }
-    // }
-    // }
-    // ymean = sumy1/sumpix;
+        // int counter = 0;
+        // for(int y=br.y; y<(br.y+br.height); y++){
+            // for(int x=br.x; x<(br.x+br.width); x++){
+                // if(mask[counter++]!=0){
+                    // pix = ip.getPixelValue(x,y);
+                    // xc = x+0.5;
+                    // yc = y+0.5;
+                    // sumpix += pix;
+                    // sumy1 += pix*yc;
+                    // cnt1++;
+                    // }
+                // }
+            // }
+        // ymean = sumy1/sumpix;
 
-    // IJ.log("Cnt all: "+counter);
-    // IJ.log("Cnt no mask: "+cnt1);
+        // IJ.log("Cnt all: "+counter);
+        // IJ.log("Cnt no mask: "+cnt1);
 
-    // counter = 0;
-    // for(int y=br.y; y<(br.y+br.height); y++){
-    // for(int x=br.x; x<(br.x+br.width); x++){
-    // if(mask[counter++]!=0){
-    // pix = ip.getPixelValue(x,y);
-    // xc = x+0.5;
-    // yc = y+0.5;
-    // sumpix += pix;
-    // sumy2 += pix*Math.pow((yc-ymean),2);
-    // sumy3 += pix*Math.pow((yc-ymean),3);
-    // sumy4 += pix*Math.pow((yc-ymean),4);
-    // }
-    // }
-    // }
-    // yvar = sumy2 / sumpix;
-    // yskew = sumy3 / (sumpix * Math.pow(yvar,1.5));
-    // ykurt = sumy4 / (sumpix * Math.pow(yvar,2)) - 3.0;
-    // IJ.log(ymean + "\t" + yvar + "\t" + yskew + "\t" + ykurt);
-    // }
+        // counter = 0;
+        // for(int y=br.y; y<(br.y+br.height); y++){
+            // for(int x=br.x; x<(br.x+br.width); x++){
+                // if(mask[counter++]!=0){
+                    // pix = ip.getPixelValue(x,y);
+                    // xc = x+0.5;
+                    // yc = y+0.5;
+                    // sumpix += pix;
+                    // sumy2 += pix*Math.pow((yc-ymean),2);
+                    // sumy3 += pix*Math.pow((yc-ymean),3);
+                    // sumy4 += pix*Math.pow((yc-ymean),4);
+                    // }
+                // }
+            // }
+        // yvar = sumy2 / sumpix;
+        // yskew = sumy3 / (sumpix * Math.pow(yvar,1.5));
+        // ykurt = sumy4 / (sumpix * Math.pow(yvar,2)) - 3.0;
+        //IJ.log(ymean + "\t" + yvar + "\t" + yskew + "\t" + ykurt);
+        // }
 
     private int getXIntensityCentroid(ImageProcessor ip) {
         Rectangle roi = ip.getRoi();
@@ -708,27 +812,49 @@ public class CometAnalyzer {
         return absdy;
     }
 
-    /*
-     * private double xCenterOfMass(ImageProcessor ip){ double sumpix = 0.0; double
-     * sumx1 = 0.0; double xc, yc; double xmean; Rectangle roi = ip.getRoi();
-     * //byte[] mask = ip.getMaskArray(); Rectangle br = roi.getBounds(); double
-     * pix; int cnt1=0, cnt0=0;
-     * 
-     * int counter = 0; for(int y=br.y; y<(br.y+br.height); y++){ for(int x=br.x;
-     * x<(br.x+br.width); x++){ pix = (ip.getPixelValue(x,y))>0 ? 1:0; xc = x+0.5;
-     * yc = y+0.5; sumpix += pix; sumx1 += pix*xc; if (pix==255) cnt1++; else
-     * cnt0++; } } xmean = sumx1/sumpix;
-     * 
-     * //IJ.log("Cnt 0: "+ cnt0 + " Cnt 1: "+ cnt1); //IJ.log("Cnt no mask: "+cnt1);
-     * return xmean; }
-     */
+    /*private double xCenterOfMass(ImageProcessor ip){
+        double sumpix = 0.0;
+        double sumx1 = 0.0;
+        double xc, yc;
+        double xmean;
+        Rectangle roi = ip.getRoi();
+        //byte[] mask = ip.getMaskArray();
+        Rectangle br = roi.getBounds();
+        double pix;
+        int cnt1=0, cnt0=0;
 
-    /*
-     * private void printCenterLine(ImageProcessor ip){ int w = ip.getWidth(); int h
-     * = ip.getHeight(); int[] center_data = new int[w]; IJ.log("H: "+h+" W: " +w+
-     * "\n"); ip.getRow(0,(int)(h/2),center_data,w); //IJ.log(center_data); String s
-     * = ""; for(int i:center_data) s += i + "\t"; IJ.log(s); }
-     */
+        int counter = 0;
+        for(int y=br.y; y<(br.y+br.height); y++){
+            for(int x=br.x; x<(br.x+br.width); x++){
+                pix = (ip.getPixelValue(x,y))>0 ? 1:0;
+                xc = x+0.5;
+                yc = y+0.5;
+                sumpix += pix;
+                sumx1 += pix*xc;
+                if (pix==255)
+                    cnt1++;
+                else
+                    cnt0++;
+                }
+            }
+        xmean = sumx1/sumpix;
+
+        //IJ.log("Cnt 0: "+ cnt0 + " Cnt 1: "+ cnt1);
+        //IJ.log("Cnt no mask: "+cnt1);
+        return xmean;
+        }*/
+
+    /*private void printCenterLine(ImageProcessor ip){
+        int w = ip.getWidth();
+        int h = ip.getHeight();
+        int[] center_data = new int[w];
+        IJ.log("H: "+h+" W: " +w+ "\n");
+        ip.getRow(0,(int)(h/2),center_data,w);
+        //IJ.log(center_data);
+        String s = "";
+        for(int i:center_data) s += i + "\t";
+        IJ.log(s);
+        }*/
 
     private int getHeadHeight(ImageProcessor ip, int xcenter) {
         int height = 0;
@@ -805,13 +931,18 @@ public class CometAnalyzer {
         // Smooth again
         double[] ddCometProfile = convFilter(y4, smoothKernel, true);
         IJ.log("Kernel width: " + kernelWidth);
-
-        /*
-         * printArray(ddCometProfile); int edge = 0; for(int i=0; i <
-         * ddCometProfile.length-1; i++){ if((ddCometProfile[i+1] > 0) &&
-         * (ddCometProfile[i] < 0)){ IJ.log("Transition at "+i); edge = i + 5; break; }
-         * } return edge;
-         */
+        
+        
+        /*printArray(ddCometProfile);
+        int edge = 0;
+        for(int i=0; i < ddCometProfile.length-1; i++){
+            if((ddCometProfile[i+1] > 0) && (ddCometProfile[i] < 0)){
+                IJ.log("Transition at "+i);
+                edge = i + 5;
+                break;
+                }
+            }
+        return edge;*/
 
         int zcross = 0;
         for (int i = 0; i < ddCometProfile.length - 1; i++) {
@@ -861,15 +992,33 @@ public class CometAnalyzer {
                     y[i] += kernel[j] * x[kernStart + j];
                 }
             }
-
         }
 
-        /*
-         * double xval; int xIdx; for(int i=0;i<outLen;i++){ y[i] = 0.0; for(int
-         * j=0;j<kernel.length;j++){ if(pad){ xIdx = i+j-kernRadius; } else { xIdx =
-         * i+j; } if(xIdx < 0){ xval = x[0]; } else if(xIdx >= x.length){ xval =
-         * x[x.length-1]; } else { xval = x[xIdx]; } y[i] += kernel[j]*xval; } }
-         */
+
+        /*double xval;
+        int xIdx;
+        for(int i=0;i<outLen;i++){
+            y[i] = 0.0;
+            for(int j=0;j<kernel.length;j++){
+                if(pad){
+                    xIdx = i+j-kernRadius;
+                    }
+                else {
+                    xIdx = i+j;
+                    }
+                if(xIdx < 0){
+                    xval = x[0];
+                    }
+                else if(xIdx >= x.length){
+                    xval = x[x.length-1];
+                    }
+                else {
+                    xval = x[xIdx];
+                    }
+                y[i] += kernel[j]*xval;
+            }
+        }
+*/
         return y;
     }
 
@@ -958,11 +1107,9 @@ public class CometAnalyzer {
 
 	private class CometParticleAnalyzer extends ParticleAnalyzer {
         protected Vector<Roi> cometRois;
-
-        /*
-         * protected void saveResults(ImageStatistics stats, Roi roi) {
-         * cometRois.add(roi); }
-         */
+        /*protected void saveResults(ImageStatistics stats, Roi roi) {
+            cometRois.add(roi);
+            }*/
         protected void saveResults(ImageStatistics stats, Roi roi) {
             // super.saveResults(stats,roi);
             cometRois.add((Roi) roi.clone());
