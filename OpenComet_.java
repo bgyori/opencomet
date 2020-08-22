@@ -56,6 +56,7 @@ public class OpenComet_ implements PlugIn, MouseListener {
     private JFileChooser inFileChooser, outDirChooser;
     private JTextField outFileNameField;
     private JCheckBox bgCorrectCheck;
+    private JSpinner minThreshold;
     private JRadioButton headFindingAuto, headFindingProfile;
     private JRadioButton headFindingBrightest;
     private int cometOptions;
@@ -92,13 +93,13 @@ public class OpenComet_ implements PlugIn, MouseListener {
         cometOptions = 0;
         // Setup comet analysis options
         if(bgCorrectCheck.isSelected())
-            cometOptions |= CometAnalyzer.COMETFIND_BGCORRECT;
+            cometOptions |= CometConfiguration.COMETFIND_BGCORRECT;
         if(headFindingAuto.isSelected())
-            cometOptions |= CometAnalyzer.HEADFIND_AUTO;
+            cometOptions |= CometConfiguration.HEADFIND_AUTO;
         if(headFindingProfile.isSelected())
-            cometOptions |= CometAnalyzer.HEADFIND_PROFILE;
+            cometOptions |= CometConfiguration.HEADFIND_PROFILE;
         if(headFindingBrightest.isSelected())
-            cometOptions |= CometAnalyzer.HEADFIND_BRIGHTEST;
+            cometOptions |= CometConfiguration.HEADFIND_BRIGHTEST;
 
         String tmpText = outFileNameField.getText();
         if((tmpText!=null) && (tmpText.length()>1)){
@@ -120,8 +121,10 @@ public class OpenComet_ implements PlugIn, MouseListener {
 
                     IJ.log("Run started, image key: "+ imageKey);
 
+                    CometConfiguration cometConfig = new CometConfiguration(cometOptions, (int)minThreshold.getValue());
+
                     Comet[] cometsOut =
-                        cometAnalyzer.cometAnalyzerRun(imp, cometOptions);
+                        cometAnalyzer.cometAnalyzerRun(imp, cometConfig);
                     IJ.log("Run complete, image key: "+ imageKey);
                     storeComets(cometsOut,imp,imageKey);
                     // if(cometsOut!=null && cometsOut.length>0){
@@ -168,8 +171,10 @@ public class OpenComet_ implements PlugIn, MouseListener {
                     ImagePlus img = imw.getImagePlus();
                     ImagePlus img2 = imw.getImagePlus().duplicate();
                     if(img!=null){
+                        
+                    CometConfiguration cometConfig = new CometConfiguration(cometOptions);
                         Comet[] cometsOut = 
-                            cometAnalyzer.cometAnalyzerRun(img,cometOptions);
+                            cometAnalyzer.cometAnalyzerRun(img,cometConfig);
                         if(cometsOut==null || cometsOut.length==0){
                             IJ.log("No comets found.");
                         }
@@ -353,6 +358,7 @@ public class OpenComet_ implements PlugIn, MouseListener {
             }
     }
 
+    // Creates the Configuration Dialog
     private void makeLayout(){
         ij.util.Java2.setSystemLookAndFeel();
         JDialog mainDialog = new JDialog(ij.IJ.getInstance(),"OpenComet",false);
@@ -606,7 +612,16 @@ public class OpenComet_ implements PlugIn, MouseListener {
         //mainPanel.add(headFindingProfile, c);
         //c.gridy = 11;
         //mainPanel.add(headFindingBrightest, c);
-
+        // Set Minimum Comet area threshhold
+        JLabel minThresholdLabel = new JLabel("Set Minimum Area Threshold");
+        c.fill = GridBagConstraints.NONE; c.gridx = 0; c.gridy = 12;
+        mainPanel.add(minThresholdLabel, c);
+        SpinnerModel model = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 10);     
+        minThreshold = new JSpinner(model);
+        int savedefaultwidth = c.gridwidth;
+        c.fill = GridBagConstraints.NONE; c.gridx = 0; c.gridy = 13;c.gridwidth=3;
+        mainPanel.add(minThreshold, c);
+        c.gridwidth = savedefaultwidth;
         // Run button panel
         Panel runPanel = new Panel();
         runButton = new JButton("Run");

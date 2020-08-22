@@ -240,7 +240,7 @@ public class CometStatistics {
 
                 double sum1=0.0,sum2=0.0;
 
-                Iterator it=valueList.iterator();
+                Iterator<Double> it=valueList.iterator();
                 int i = 0;
                 while(it.hasNext()){
                     i++;
