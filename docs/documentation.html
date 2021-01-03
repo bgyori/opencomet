@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>OpenComet</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="css/style1.css" type="text/css" media="all" />
+	<link rel="shortcut icon" href="images/favicon.ico" />
+</head>
+<body>
+	<div class="shell">
+		<div id="header">
+			<h1 id="logo"><img src="images/Opencometlogo3.png" alt="logo" /></h1>
+		</div>
+		<div id="navigation">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="documentation.html">Documentation</a></li>
+				<li><a href="download.html">Downloads</a></li>
+				<li><a href="results.html">Results</a></li>
+				<li><a href="links.html">Links</a></li>
+				<li><a href="about.html" class="left">About </a></li>
+			</ul>
+		</div>
+		<h2>OpenComet v1.3 documentation</h2>
+		
+		<div class="fullcol">
+			<h3>Basic installation</h3>
+			<p><strong>Installing OpenComet  in ImageJ</strong><br />
+1) Download and install <a href="http://rsbweb.nih.gov/ij/download.html" title="ImageJ" target="_blank">ImageJ</a>.<br />
+2) Download the latest version of &quot;OpenComet plugin&quot; from the <a href="download.html">Downloads</a> page and extract the zip file.<br />
+3) Browse for the extacted OpenComet_.jar and copy the file.<br />
+4) 
+Browse to the installation folder of ImageJ and paste OpenComet_.jar into the plugins folder.*<br />
+			  5) When ImageJ is launched, OpenComet will  appear under the Plugins
+		  menu.</p>
+<h3>Further installation methods</h3>
+			<p>OpenComet is released in several different packages, which can be obtained from the <a href="download.html">Downloads</a> page.</p>
+			<p><strong>Installing OpenComet  in ImageJ</strong> (Alternative method)<br />
+			  1) Download and install <a href="http://rsbweb.nih.gov/ij/download.html" title="ImageJ" target="_blank">ImageJ</a>.<br />
+			  2) Download the latest version of &quot;OpenComet plugin&quot; from the <a href="download.html">Downloads</a> page and extract the zip file.<br />
+			  3) Launch ImageJ and from the menu choose Plugins / Install...<br />
+			  4) Browse for the extracted OpenComet_.jar and click Open.<br />
+		    5) ImageJ offers to save the OpenComet_.jar in its own plugins folder. Click Save.*<br />
+		    6) OpenComet will now appear in ImageJ under the Plugins
+		    menu.</p>
+		  <p><strong>Installing OpenComet bundled with ImageJ<br />
+          </strong> 1) Download the latest version of &quot;OpenComet plugin ImageJ bundle&quot; from the <a href="download.html">Downloads</a> page and extract the zip file.<br />
+2) Launch ImageJ from the extracted folder.<br />
+3) OpenComet will appear in ImageJ under the Plugins menu.</p>
+			<p><strong>Installing OpenComet  in Fiji</strong><br />
+			  1) Download and install <a href="http://fiji.sc/Downloads">Fiji</a>.<br />
+2) Download the latest version of   &quot;OpenComet plugin&quot; from the <a href="download.html">Downloads</a> page and extract the zip file.<br />
+			  3) Browse for the extacted OpenComet_.jar and copy the file.<br />
+			  4) 
+			  Browse to the installation folder of Fiji and paste OpenComet_.jar into the plugins folder.*<br />
+			  5) When Fiji is launched, OpenComet will  appear under the Plugins
+			  menu.<br />
+		  </p>
+			<p><strong>Compiling OpenComet from source code in Fiji</strong><br />
+		      (note: we suggest using Fiji instead of ImageJ to compile OpenComet)<br />
+		      1) Download and install <a href="http://fiji.sc/Downloads">Fiji</a>.<br />
+				2) Download the latest version of &quot;OpenComet plugin and source code&quot; from the <a href="download.html">Downloads</a> page and extract the zip file.<br />
+				3) Launch Fiji and choose Plugins / Compile and Run.<br />
+			4) Browse for the extracted OpenComet_.java and open.<br />
+			5) The compiled OpenComet will now launch in Fiji.		  </p>
+		  <p><strong>Installing OpenComet in Micro-Manager</strong><br />
+		    1) Download and install <a href="http://www.micro-manager.org/">Micro-Manager</a> (Micro-Manager is by default bundled with ImageJ).<br />
+		    2) 
+		    Download the latest version of &quot;OpenComet plugin&quot; from the <a href="download.html">Downloads</a> page and extract the zip file.<br />
+		    3) 
+		    Browse for the extracted OpenComet_.jar and copy the file.<br />
+		    4) 
+		    Browse to the installation folder of Micro-Manager and paste OpenComet_.jar into the plugins folder.*<br />
+		    5) When Micro-Manager is launched, the ImageJ interface is simultaneously shown. OpenComet will  appear in ImageJ under the Plugins
+		  menu.</p>
+		  <p>*You need to have write permission on the folder to be able to paste OpenComet_.jar.<br />
+	      </p>
+      </div>
+
+
+
+		<div class="fullcol">
+			<h3>Usage instructions</h3>
+		  <p><a href="#interface">OpenComet interface and usage      </a></p>
+      <p><a href="#input">OpenComet input</a></p>
+      <p><a href="#analysis_options">OpenComet analysis</a></p>
+      <p><a href="#output">OpenComet output</a></p>
+      <p><a href="#review">Manual review and update of analysis results</a>      </p>
+      <p><a href="#live"> Live image analysis using OpenComet in Micro-Manager</a></p>
+      <p><a href="#video_tutorial">Video tutorial</a></p>
+      <h3><a name="interface" id="interface"></a>OpenComet interface and usage</h3>
+      <p>Use the following steps to analyze comet assay images using OpenComet. </p>
+<p><strong>1) Run OpenComet plugin</strong> – Launch ImageJ, and click on the Plugins menu. If OpenComet is properly installed, it will appear in the plugins list, and will run when clicked. </p>
+<p><strong>2) Select images to analyze </strong>– Click the Browse button next to the &quot;Input files&quot; label and choose any number of images from a single folder that you want to analyze. More information on choosing input images can be found <a href="#input">here</a>. </p>
+      <p><strong>3) Select output directory </strong> – Click the Browse button next to the &quot;Output directory&quot; label and choose an output directory of your choice. Optionally, you can change the name of the output file by changing it under the &quot;Output file name&quot; label. Make sure you have permission to write in the chose output directory (otherwise OpenComet will not be able to save the output). More information on the output generated by OpenComet can be found <a href="#output">here</a>. </p>
+      <p><strong>4) Set analysis options (optional)</strong> – In case you want to use the default analysis setting, you do not need to change analysis options. These settings influence the way OpenComet finds and segments comets. More information on the meaning and usage of analysis options can be found <a href="#analysis_options">here</a>.<br />
+      </p>
+      <p><strong>5) Run</strong> –  Click the Run button to perform the analysis for all the chosen input images. The final output images with marked comets and intensity profiles are  shown in separate ImageJ windows. The output images, as well as the calculated statistics in a spreadsheet are saved in the output folder. More details about the output generated by OpenComet can be found <a href="#output">here</a>. </p>
+      <p><strong>6) Review and update (optional)</strong> – After clicking Run, the output images resulting from the automated analysis are displayed. At this point, you can click on any comet in any of the displayed output images. The clicked comets will be classified as &quot;deleted&quot;. After finishing the review process, press the Update button to overwrite the saved output images and create an updated output spreadsheet. More details on the review process can be found <a href="review">here</a>.      </p>
+      <p class="imgcenter"> <img src="images/usage.png" align="absmiddle" /></p>
+      <h3><a name="input" id="input"></a>OpenComet input</h3>
+      <p><strong>Selecting files<br />
+      </strong>The input files for OpenComet analysis can be selected by clicking on Browse next to the &quot;Input files&quot; label. Any number of images stored in a single folder can be selected in the file selection window. Multiple files can be selected by holding Shift or Control on the keyboard while clicking on files. </p>
+<p><strong>Image format<br />
+</strong>OpenComet accepts all common image formats such as TIF, BMP, JPEG, PNG and others. Normally, comet assay images will contain brightness information on a single channel in the image. If the image contains multiple color channels (such as R, G and B channels), OpenComet automatically selects the channel containing the brightness information. </p>
+<p><strong>Comet assay image specifics<br />
+</strong>OpenComet requires that comets are oriented along the horizontal axis, the tails extending towards the right hand direction. It is also assumed that the comets appear as bright objects on a dark background. See example below.</p>
+<p class="imgcenter"><img src="images/comet_example.png" width="251" height="77" alt="Comet example" /></p>
+<p>If the orientation of images differs from this, we recommend first rotating them in ImageJ or another image processing application, and then analyzing then using OpenComet. OpenComet is tested to perform well with various comet shapes and sizes including ones typical for neutral as well as alkaline comet assay. 
+  OpenComet works with a variety of magnifications, and has been tested for images captured between 5x to 40x magnification. </p>
+<h3><a name="analysis_options" id="analysis_options"></a>OpenComet analysis</h3>
+<p> <strong>Comet finding<br />
+</strong>Comet assay images often do not have uniform background illumination. Due to this, the background on one part of the image may be brighter than the comets on another part of the image. It is  therefore recommended that if the illumination is non-uniform along the image, background correction is done in order to correctly identify comets in all parts of the image. If the <strong>Background correction</strong> checkbox is checked (default), OpenComet uses a rolling ball based background subtraction method to adjust the illumination along the image. This correction is done only for the purpose of finding comet shapes, and will not affect the calculation of measured parameters in any  way.</p>
+<p>During the comet finding process, shapes in the foreground (bright shapes) are separated from the background. <br />
+  The following shapes are <strong>removed</strong> during the process</p>
+<ul>
+  <li>Very small regions - these usually appear due to noise or are other non-comet objects in the image</li>
+  <li>Regions that touch the edge of the image - since accurate measurements cannot be done on clipped comets</li>
+  <li>Regions that are highly non-convex - since this usually indicates a set of clumped comets</li>
+  <li>Regions that are highly misaligned or non-symmetric with respect to the horizontal axis - since this usually indicates a set of clumped comets</li>
+  </ul>
+<p>The shapes removed at this stage are marked with a <strong>gray outline</strong> in the output image, are not assigned an ID number and will <strong>not appear in any calculations</strong> or statistics. </p>
+<p>The following stage of filtering uses shape statistics based on the population of comets in the image to idenitfy comets that are potential outliers. <br />
+  The following comets are <strong>flagged as outliers</strong> (since they usually indicate overlapping, clumped comets)</p>
+<ul>
+  <li>Comets that have significantly larger or smaller area than the average comet size</li>
+  <li>Comets that have significantly larger height than the average comet size</a></li>
+</ul>
+<p>The shapes flagged as outliers at this stage will appear  a <strong>yellow outline</strong> in the output image, are  assigned an ID number, are measured, and will <strong>also appear in all calculations</strong> and statistics.</p>
+<p><strong>Head finding</strong><br />
+  After having identified the comet shapes, OpenComet attempts to find the head of each comet. The <strong>Profile analysis</strong> option analyzes the brightness of the comet along the horizontal axis. By analyzing the shape of this profile, it finds a characteristic pattern corresponding to the border between the head and the tail. The <strong>Brightest region</strong> method first finds the set of brightest pixels inside the comet, and considers the center of these pixels as the center of the head. This method may fail if a cell is highly damaged, and the tail is very bright (sometimes brighter than the head). The <strong>Auto</strong> option (default) first applies the brightest region method to find the head, and if it detects that the method failed, it uses profile analysis to find the correct position of the head.</p>
+<h3><a name="output" id="output"></a>OpenComet output</h3>
+      <p>OpenComet generates the following outputs</p>
+      <ul>
+        <li><strong>Output images</strong> with overlay for all analyzed  images (displayed and saved in output folder) </li>
+      <li><strong>Output spreadhseet</strong> containing comet measurements and statistics for all analyzed  images (saved in output folder) </li>
+      </ul>
+      <p>The naming convention for the output is as follows. For instance, if the chose output folder is C:/CometOutput, and an input image is called comet1.tif, then the corresponding output image will be called C:/CometOutput/comet1_out.tif. The name of the output spreadsheet can be modified by setting the output file name. The default file name is based on the current date and time. The default setting would result in an output spreadsheet named C:/CometOutput/comets_2013_1104_231304.xls, which includes the year, month, day, hour, minute and second.</p>
+      <p>Each comet analyzed by OpenComet has an identification number associated with it.</p>
+      <p class="imgcenter"><img src="images/outputlink.png" /></p>
+<p>In addition to the output files, a log window shows textual output on the tasks performed by OpenComet during image analysis. It contains  information about the steps and calculations made by OpenComet. All esential information is stored in the output images and output spreadsheet, the log only provides additional diagnostic information and can normally be ignored. The log text is not automatically stored, but can be manually saved as a text file by right clicking on the log window and choosing Save As...</p>
+      <p><strong>Output images</strong></p>
+      <p>The intensity profiles and outlines of all the comets and comet heads are shown as an overlay  in each image the output images are both displayed and saved.      The comets that are in clumps and at the edges are not considered for analysis. From the subset of valid comets, further comet validation steps will classify the comets as below and are represented with different outline.</p>
+      <p>The various overlaid shapes are color coded, and can be interpreted as follows.</p>
+      <p><strong>Comet outlines</strong></p>
+      <ul> 
+      <li>RED outline and number: Normal comets</li>
+      <li>YELLOW outline and number: Outlier comet</li>
+      <li>GRAY outline: Removed shape</li>
+      </ul>
+      <p class="imgcenter"><img src="images/comet_outlines.png" alt=""/></p>
+      <p><strong>Comet profile</strong></p>
+      <ul>
+        <li>GREEN profile: Comet head</li>
+        <li>YELLOW profile: Comet tail</li>
+        <li>BLUE profile: Comet (equal to head plus tail)</li>
+      </ul>
+      <p class="imgcenter"><img src="images/comet_profiles.png" /><br />
+      </p>
+      <p>&nbsp;</p>
+      <p><strong>Output spreadsheet </strong><br />
+      </p>
+<p>An output spreadsheet generated by OpenComet contains several comet measures and their population statistics. In particular, DNA damage can be assessed through the DNA% in tail, Tail moment or Olive moment that are each one column in the output spreadsheet.		</p>
+<div class="fullcol">
+  <p><strong>Comet parameters computed by OpenComet</strong> </p>
+       	  <table class="indextable" border=0 cellspacing="0" b>
+				<tr>
+				  <td width="152"><strong>Parameter</strong></td>
+				<td width="524"><strong>Description</strong></td></tr>
+				<tr class="tr1"><td>Comet area</td><td>Number of pixels in the comet </td></tr>
+				<tr class="tr2"><td>Comet length	</td><td>Length of the comet region in pixels </td></tr>
+				<tr class="tr1"><td>Comet DNA content	</td><td>Sum of pixel intensities inside the comet</td></tr>
+				<tr class="tr2"><td>Comet average intensity	</td><td>Comet DNA content divided by comet size</td></tr>
+				<tr class="tr1"><td>Head area	</td><td>Number of pixels inside the head</td></tr>
+				<tr class="tr2"><td>Head diameter	</td><td>Length of the head in pixels</td></tr>
+				<tr class="tr1"><td>Head DNA content	</td><td>Sum of pixel intensities inside the head</td></tr>
+				<tr class="tr2"><td>Head average intensity	</td><td>Head DNA content divided by head size</td></tr>
+
+				<tr class="tr1"><td>Head DNA %</td><td>Head DNA content as a percentage of Comet DNA content</td></tr>
+				<tr class="tr2"><td>Tail area	</td><td>Number of pixels in the tail</td></tr>
+				<tr class="tr1"><td>Tail length</td><td>Length of the tail in pixels</td></tr>
+				<tr class="tr2"><td>Tail DNA content	</td><td>Sum of pixel intensities inside the tail</td></tr>
+				<tr class="tr1"><td>Tail average	</td><td>Tail DNA content divided by tail size</td></tr>
+				<tr class="tr2"><td>Tail DNA %	</td><td>Tail DNA content as a percentage of Comet DNA content</td></tr>
+				<tr class="tr1"><td>Tail moment	</td><td>Tail length times Tail DNA %</td></tr>
+				<tr class="tr2"><td>Olive moment</td><td>DNA % and the distance between the intensity-weighted centroids of head and tail</td></tr>
+		  </table>
+		</div>
+<p>One output spreadsheet is generated each time OpenComet is run, and each comet is identified by its input image name and comet number. If multiple images have been selected for analysis, the comet measurements for each of these images will appear in the single output spreadsheet. </p>
+<p>To facilitate the analysis process, the spreadsheet also contains population statistics about all measured comets. Statistics such as the mean, median, standard deviation, maximum and minimum values are calculated for all measurement parameters at the end of the file.      </p><p class="imgcenter"><img src="images/spreadsheet.png"/></p>
+      
+      		<p>A total of 19 columns (16 comet properties and 3 file and comet details) are in the output data file. The spreadsheet of the above-analyzed images is shown. Note that comets are flagged as normal,  outlier or deleted. User can filter the data accordingly for further processing. </p>
+      		<div class="fullcol">
+			
+		</div>
+
+      
+      
+      <h3><a name="review" id="review"></a>Manual review and update of analysis results</h3>
+      <p>After clicking Run, OpenComet analyzes the set of input images and displays the output images marked with color coded outlines and profile curves. While OpenComet attempts to automatically recognize all shapes that are not comets, some shapes may have very similar attributes to actualy comets and thus cannot be recognized to be removed or flagged outlier. Therefore, it can happen that some of the shapes recognized as comets may be incorrect. See below image for an example</p>
+      <p class="imgcenter"><img src="images/otuput_image_incorrect.png" width="588" height="369" /></p>
+      <p>At this point it is possble to manually remove any false positive (incorrectly recognized) comet from the output by simply clicking on it. The comet that has been clicked on will still <strong>retain its number ID</strong>,  will <strong>still appear in the output spreadsheet</strong> flagged as &quot;deleted&quot;, and its <strong>outline will be gray</strong> (instead of the original red or yellow) in the output image. It is important that to overwrite the original output, one <strong>must press the Update button</strong>. The Update button may be pressed any number of times during review, and the outputs will be updated at each press. When pressing Update, output images will simply be overwritten with the reviewed ones. However, for reference, the original output spreadsheet is retained, and a new, updated one is generated, whose name has the &quot;_update&quot; suffix. </p>
+      <p class="imgcenter"><img src="images/manual_review.png" /></p>
+      <p>Please note the following properties of the on-click remove functionality:</p>
+      <ul>
+        <li>It is possible to click on any comet in any of the open output images to be removed</li>
+        <li>The order of clicking on comets (and the order images are reviewed) is arbitrary</li>
+        <li>Once an output image is closed, the manual review cannot be resumed on that image</li>
+        <li>Once a comet is clicked on, it will not be possible to undo the removal</li>
+      </ul>
+      <p>&nbsp;</p>
+      <h3><a name="live" id="live"></a>Live image analysis using OpenComet in Micro-Manager</h3>
+      <p>Documentation coming soon.</p>
+		</div>
+        
+        <div class="fullcol">
+			<h3><a name="video_tutorial" id="video_tutorial"></a>Video tutorial</h3>
+            <p>This video tutorial shows the steps of analyzing comet assay images using OpenComet v1.1.            </p>
+            <iframe width="914" height="640" src="http://www.youtube.com/embed/Ep8f3vMXJGU" frameborder="0" allowfullscreen></iframe>
+		</div>
+
+		<div id="footer">
+			<p class="left">Copyright &copy; 2013, OpenComet, GNU General Public License version 3.0 (GPLv3)</p>
+  </div>
+	</div>
+
+	
+<!-- Start of StatCounter Code for Default Guide -->
+	<script type="text/javascript">
+	var sc_project=9382056; 
+	var sc_invisible=1; 
+	var sc_security="ef3110fd"; 
+	var scJsHost = (("https:" == document.location.protocol) ?
+	"https://secure." : "http://www.");
+	document.write("<sc"+"ript type='text/javascript' src='" +
+	scJsHost+
+	"statcounter.com/counter/counter.js'></"+"script>");
+	</script>
+	<noscript><div class="statcounter"><a title="web analytics"
+	href="http://statcounter.com/" target="_blank"><img
+	class="statcounter"
+	src="http://c.statcounter.com/9382056/0/ef3110fd/1/"
+	alt="web analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->	
+	
+</body>
+</html>
