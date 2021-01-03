@@ -1,0 +1,159 @@
+body{
+	margin:0;
+	background-color:#e0e0e0;	
+	font-family:helvetica;
+	font-size:10pt;
+	color:#202020;
+}
+a{
+	text-decoration:none;
+	color:red;
+}
+a:hover{
+	text-decoration:underline;
+	color:red;
+}
+
+.shell {
+	border-left:1px solid #ccc;
+	border-right:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	background-color:#fff;
+	width:980px;
+	margin:0 auto 9px auto;
+}
+
+#header{
+	margin:0;
+	padding:0;
+}
+
+h1{
+	font-weight:normal;
+	margin:0;
+	padding:0;
+}
+h2{
+/*	font-weight:normal;*/
+	color:#202020;
+	margin:33px 0 16px 33px;
+	font-size:160%;
+	letter-spacing:0.5pt;
+	font-family:helvetica;
+}
+h3{
+	background-color:#eee;
+/*	text-transform:uppercase;*/
+	margin:0;
+	padding:9px;
+	font-size:120%;
+}
+
+#navigation {
+	font-family:helvetica;
+	font-size:10pt;
+	margin:16px 0px;
+	padding:0;
+	height:43px;
+	border-top:1px solid #dbdbdb;
+	border-bottom:1px solid #dbdbdb;
+
+}
+#navigation ul {
+	list-style:none;
+	margin:0 33px;
+	padding:0;
+}
+#navigation ul li {
+	margin:0;
+	padding:0;
+
+}
+#navigation ul li a {
+	text-decoration:none;
+	text-transform:uppercase;
+	/*border-right:1px solid #dbdbdb;*/
+	display:block;
+	float:left;
+	font-size:100%;
+	letter-spacing:1pt;
+	line-height:44px;
+	font-weight:normal;
+	color:#000;
+	padding:0 33px 0 0;
+}
+#navigation ul li a:hover{
+	text-decoration:none;
+	color:red;
+}
+
+#footer {
+	float:none;
+	clear:both;
+	font-size:11px;
+	color:#7f7f7f;
+	padding:9px 33px;
+}
+.imgem{
+	margin-left:200px;
+	color:#333;
+}
+.leftcol, .rightcol, .semicol{
+	margin:16px 33px 33px 33px;
+	float:left;
+	display:block;
+	width:420px;
+
+	clear:left;	
+}
+.rightcol{
+	clear:right;	
+}
+.semicol{
+	width:600px;	
+}
+
+.fullcol{
+	float:none;
+	clear:both;
+	margin:16px 33px 16px 33px;
+}
+
+
+strong{
+	color:#303030;
+	font-size:110%;
+	font-weight:bold;
+	letter-spacing:0.1pt;
+	
+}
+.indextable{
+	font-size:90%;
+/*	border-left:1px solid #666;
+	border-top:1px solid #666;*/
+	padding:0;	
+	width:680px;
+	
+	margin:0;
+}
+.indextable tr{
+	margin:0;padding:0;
+}
+.indextable td{
+	padding:6px 9px;
+	margin:0;
+/*	border:0px;*/
+/*	border-right:1px solid #666;
+	border-bottom:1px solid #666;*/
+}
+.indextable .tr1{
+	background-color:#ddd;
+}
+
+.indextable .tr2{
+	background-color:#eee;
+}
+
+.imgcenter{
+	text-align:center;
+}
