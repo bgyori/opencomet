@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>OpenComet</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="css/style1.css" type="text/css" media="all" />
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	<link rel="stylesheet" href="css/slider.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="css/jquery.jcarousel.css" type="text/css" media="all" />
+	<!--[if IE 6]><link rel="stylesheet" href="css/ie6.css" type="text/css" media="all" /><![endif]-->
+	<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.jcarousel.pack.js"></script>
+	<script type="text/javascript" src="js/func.js"></script>
+</head>
+<body>
+	<div class="shell">
+		<div id="header">
+			<h1 id="logo"><img src="images/Opencometlogo3.png" alt="logo" /></h1>
+		</div>
+		<div id="navigation">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="documentation.html">Documentation</a></li>
+				<li><a href="download.html">Downloads</a></li>
+				<li><a href="results.html">Results</a></li>
+				<li><a href="links.html">Links</a></li>
+				<li><a href="about.html" class="left">About </a></li>
+			</ul>
+		</div>
+		
+		<div class="slider">
+      <div class="slider-nav"> <a href="#" class="left notext">1</a> <a href="#" class="left notext">2</a><a href="#" class="left notext">3</a>
+        <div class="cl">&nbsp;</div>
+      </div>
+      <ul>
+        <li>
+          <div class="item"><img src="images/Slider-1.png" width="929" height="300" /> </div>
+        </li>
+        <li>
+          <div class="item"><img src="images/Slider-2.png" width="929" height="300" /></div>
+        </li>
+        <li>
+          <div class="item"><em><img src="images/Slider-3.png" width="929" height="300" /></em></div>
+        </li>
+      </ul> 
+    </div>
+		<div class="fullcol">
+			<strong>OpenComet is an open-source software tool providing  automated analysis of comet assay images. </strong>     
+		</div>
+	
+    <div class="fullcol">
+		<strong>OpenComet v1.3.1 is now available (12/2/2016)</strong><br />
+        This release fixes a critical issue related to comet head finding which was introduced by a
+        change in ImageJ.
+	</div>	
+	
+	<div class="fullcol">
+		<strong>The open-access publication on OpenComet is available at</strong><br />
+		<a href="http://www.sciencedirect.com/science/article/pii/S2213231714000032" target="_blank">BM Gyori, G Venkatachalam, PS Thiagarajan, D Hsu and MV Clement. "OpenComet: An automated tool for comet assay image analysis",<br /> Redox Biology, 2:457-465, 2014.</a>
+	</div>	
+
+        <div class="fullcol"> 
+			<strong>Using OpenComet</strong>
+			<p>OpenComet is a plugin for the image processing program ImageJ. The latest version of OpenComet (v1.3) can be obtained from the <a href="download.html">Downloads</a> page. Follow the  <a href="documentation.html">instructions to install</a> and launch OpenComet. OpenComet can analyze a batch of comet assay images, identify the comets and measure their parameters. Refer to the <a href="documentation.html#interface">usage instructions</a> and a <a href="documentation.html#video_tutorial">video tutorial</a> to learn using the tool. </p>
+        </div>
+        
+		<div class="leftcol">
+			<strong>Highlights</strong>
+			<ul>
+				<li><strong>Automated analysis</strong>: faster and less prone to human bias</li>
+				<li><strong>Robust methods</strong> for finding comets and comet head</li>
+				<li><strong>Measures DNA% in tail, Tail moment, Olive moment</strong> and other comet parameters</li>
+				<li><strong>Manual review</strong> (optional) of analysis results </li>
+				<li><strong>Live measurement</strong> of comets using Micro-Manager</li>
+				<li><strong>Validated</strong> on both alkaline and neutral comet assay images</li>
+			</ul>
+    </div>
+		<div class="rightcol">
+			<strong>Sample OpenComet analysis</strong>
+			<p><img src="images/comet_analysis_example.jpg" alt="Comet" /></p>
+</div>
+		<div class="leftcol">
+			<strong>Comet finding method</strong>
+            <p>Part of the challenge in identifying valid comets is throwing away non-comet objects and overlapping (or clumped) comets. 
+            Our approach involves extracting  shape parameters such as convexity ratio and a measure of symmetry. These shape parameters can be used to separate comets from non-comets.</p>
+			<p><img src="images/comet_finding.jpg" alt="cometfinding" /></p>
+		</div>
+		<div class="rightcol">
+			<strong> Comet head finding</strong>
+		    <p>We have introduced a novel comet head finding method based on intensity profile analysis, which performs  robustly for  damaged cells.</p>
+      <p><img src="images/comet_head.jpg" alt="comethead" /></p>
+  </div>
+<!--		<div class="leftcol">
+			<strong>OpenComet live measurement with Micro-Manager</strong>
+			<p>Description coming soon.</p>
+		</div> -->
+
+<div id="footer">
+			<p class="left">Copyright &copy; 2013, OpenComet, GNU General Public License version 3.0 (GPLv3)</p>
+  </div>
+	</div>
+
+
+<!-- Start of StatCounter Code for Default Guide -->
+	<script type="text/javascript">
+	var sc_project=9382056; 
+	var sc_invisible=1; 
+	var sc_security="ef3110fd"; 
+	var scJsHost = (("https:" == document.location.protocol) ?
+	"https://secure." : "http://www.");
+	document.write("<sc"+"ript type='text/javascript' src='" +
+	scJsHost+
+	"statcounter.com/counter/counter.js'></"+"script>");
+	</script>
+	<noscript><div class="statcounter"><a title="web analytics"
+	href="http://statcounter.com/" target="_blank"><img
+	class="statcounter"
+	src="http://c.statcounter.com/9382056/0/ef3110fd/1/"
+	alt="web analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body>
+</html>
