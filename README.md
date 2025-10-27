@@ -8,10 +8,13 @@ The open-access publication on OpenComet is available at
 comet assay image analysis", Redox Biology, 2:457-465,
 2014.](http://www.sciencedirect.com/science/article/pii/S2213231714000032)
 
-The easiest way to build and package the plugin is to download and extract
-[Fiji](http://imagej.net/Fiji/Downloads) and
+For more information including downloads, documentation and tutorials, visit https://cometbio.org/.
 
-    javac -classpath "<path_to_fiji>/Fiji.app/jars/*" *.java
-    jar cf OpenComet_.jar *.class
+## Building locally
 
-For more information including downloads, documentation and tutorials, visit http://opencomet.org.
+The plugin jar file can be built using
+```sh
+make build
+```
+
+The compiled plugin will be written to `build/dist/OpenComet_.jar`
