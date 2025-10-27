@@ -1,4 +1,4 @@
-IJ_VERSION := 1.54g
+IJ_VERSION := 1.54p
 IJ_JAR := lib/ij-$(IJ_VERSION).jar
 IJ_URL := https://repo1.maven.org/maven2/net/imagej/ij/$(IJ_VERSION)/ij-$(IJ_VERSION).jar
 
