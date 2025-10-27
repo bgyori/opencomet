@@ -4,8 +4,10 @@ IJ_URL := https://repo1.maven.org/maven2/net/imagej/ij/$(IJ_VERSION)/ij-$(IJ_VER
 
 BUILD_DIR := build/classes
 DIST_DIR := build/dist
-JAVA_SOURCES := $(filter-out TestRunner.java,$(wildcard *.java))
-TEST_SOURCES := TestRunner.java
+JAVA_SOURCES := $(wildcard *.java)
+TEST_SOURCES := $(wildcard tests/*.java)
+TEST_MARKER := $(BUILD_DIR)/.tests-compiled
+TEST_CLASSES := $(basename $(notdir $(TEST_SOURCES)))
 
 ifeq ($(OS),Windows_NT)
   CP_SEP := ;
@@ -36,11 +38,24 @@ $(DIST_DIR)/OpenComet_.jar: $(BUILD_DIR)/.compiled
 
 build: $(DIST_DIR)/OpenComet_.jar
 
-$(BUILD_DIR)/TestRunner.class: $(TEST_SOURCES) $(BUILD_DIR)/.compiled
+ifeq ($(strip $(TEST_SOURCES)),)
+$(TEST_MARKER): $(BUILD_DIR)/.compiled
+	@touch $@
+else
+$(TEST_MARKER): $(TEST_SOURCES) $(BUILD_DIR)/.compiled
 	@javac -cp "$(CLASSPATH_WITH_CLASSES)" -d $(BUILD_DIR) $(TEST_SOURCES)
+	@touch $@
+endif
 
-test: $(BUILD_DIR)/.compiled $(BUILD_DIR)/TestRunner.class
-	@java -cp "$(CLASSPATH_WITH_CLASSES)" TestRunner
+test: $(BUILD_DIR)/.compiled $(TEST_MARKER)
+	@if [ -z "$(strip $(TEST_CLASSES))" ]; then \
+		echo "No tests to run."; \
+	else \
+		for cls in $(TEST_CLASSES); do \
+			echo "Running $$cls"; \
+			java -cp "$(CLASSPATH_WITH_CLASSES)" $$cls || exit $$?; \
+		done; \
+	fi
 
 clean:
 	@rm -rf build
